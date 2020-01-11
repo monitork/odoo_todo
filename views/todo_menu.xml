@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<odoo>
-    <!-- Todo App Menu -->
-    <menuitem id="menu_todo" name="Todo List"/>
-</odoo>

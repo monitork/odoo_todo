@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_todo_form" model="ir.ui.view">
+            <field name="name"/>
+        </record>
+
+
+    </data>
+</odoo>
