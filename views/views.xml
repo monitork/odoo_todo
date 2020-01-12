@@ -1,10 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="view_todo_form" model="ir.ui.view">
-            <field name="name"/>
-        </record>
+    <!-- todo.todo search view -->
+    <record id="todo_todo_view_search" model="ir.ui.view">
+        <field name="name">todo.todo.view.search</field>
+        <field name="model">todo.todo</field>
+        <field name="arch" type="xml">
+            <search string="Search Description">
+                <!-- Add your fields here -->
+                <field name="name" filter_domain="['|', ('name','ilike',self), ('description','ilike',self)]" string="Todo"/>
 
+                <filter name="draft"
+                string="Draft"
+                domain="[('status','=','draft')]" help="Todo Draft"/> 
+                <filter name="in_process"
+                string="In Process"
+                domain="[('status','=','in_process')]" help="Todo In Process"/> 
+                <filter name="done"
+                string="Done"
+                domain="[('status','=','done')]" help="Todo Done"/>  
 
-    </data>
+                <field name="category" groups="todo.category"/>
+                <!-- <field name="user" groups="todo.category"/> -->
+            </search>
+        </field>
+    </record>
+    <!-- todo.todo tree view -->
+    <record id="todo_todo_view_tree" model="ir.ui.view">
+        <field name="name">todo.todo.view.tree</field>
+        <field name="model">todo.todo</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="status=='done'" decoration-muted="status=='draft'" decoration-danger="status=='in_process'">
+                <!-- Add your fields here -->
+                <field name="name"/>
+                <field name="description"/>
+                <field name="category"/>
+                <field name="current_user"/> 
+                <field name="status"/>
+                <field name="due_date"/>    
+            </tree>
+        </field>
+    </record>
+    <!-- todo.todo form view -->
+    <record id="todo_todo_view_form" model="ir.ui.view">
+        <field name="name">todo.todo.view.form</field>
+        <field name="model">todo.todo</field>
+        <field name="arch" type="xml">
+            <form string="Todo Form">
+                <header> 
+                    <button class="open_wizard oe_highlight" name="%(todo_make_done_wizard)d" type="action"
+                        icon="fa-check">
+                        <field name="status" widget="statinfo" string="All Done"/>
+                    </button>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,in_process,done"/>
+                </header>
+                <sheet>
+                    <div class="status_button_box oe_button_box" name="button_box">
+                        <button class="status_next_button" name="action_next" type="object"
+                            icon="fa-angle-right">
+                            <field name="status" widget="statinfo" string="Status"/>
+                        </button> 
+                    </div>
+                    <group>
+                        <!-- Add your fields here --> 
+                        <group>
+                            <field name="name"/>
+                            <field name="due_date"/> 
+                            <field name="current_user"/> 
+                        </group> 
+                        <group>
+                            <field name="category"/>
+                        </group> 
+                    </group>
+                    <group> 
+                        <field name="description"/>
+                    </group> 
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- todo.todo action window -->
+    <record id="todo_todo_action" model="ir.actions.act_window">
+        <field name="name">Todo</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">todo.todo</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+                Create your firt todo task!
+            </p><p>
+                <!-- More details about what a user can do with this object will be OK --> 
+            </p>
+        </field>
+    </record>
+    <!-- todo.category action window -->
+    <record id="todo_category_action" model="ir.actions.act_window"> 
+        <field name="name">Category</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">todo.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+                Create your firt todo category!
+            </p><p>
+                <!-- More details about what a user can do with this object will be OK --> 
+            </p>
+        </field>
+    </record>
+    <!--    Menu    -->
+    <menuitem id="todo_root" name="Todo Manager" sequence="0"/>
+    <menuitem id="todo_todo" name="Todo" parent="todo_root" action="todo_todo_action"/>
+    <menuitem id="todo_category" name="Todo Category" parent="todo_root" action="todo_category_action"/> 
 </odoo>

@@ -1,13 +1,14 @@
-from odoo import models, fields
+# -*- coding: utf-8 -*-
+from odoo import models, fields,api
 
 
-class TodoCategory(models.Model):
+class TodoCategoryModel(models.Model):
     _name = 'todo.category'
     _description = 'Todo category'
     name = fields.Char(string="Todo Category name", required=True)
 
 
-class Todo(models.Model):
+class TodoModel(models.Model):
     _name = 'todo.todo'  # Table name in database: todo_todo
     _description = 'Todo table'
     # _inherit = 'new_module.new_module'
@@ -32,3 +33,10 @@ class Todo(models.Model):
         comodel_name='todo.category',
         string='Category',
         required=True)
+    @api.multi
+    def action_next(self):
+        next_status = 'done'
+        if self.status == 'draft':
+            next_status = 'in_process' 
+        return self.update({'status': next_status})
+
