@@ -7,8 +7,7 @@
         <field name="arch" type="xml">
             <search string="Search Description">
                 <!-- Add your fields here -->
-                <field name="name" filter_domain="['|', ('name','ilike',self), ('description','ilike',self)]" string="Todo"/>
-
+                <field name="name"  string="Todo"/>
                 <filter name="draft"
                 string="Draft"
                 domain="[('status','=','draft')]" help="Todo Draft"/> 
@@ -17,9 +16,10 @@
                 domain="[('status','=','in_process')]" help="Todo In Process"/> 
                 <filter name="done"
                 string="Done"
-                domain="[('status','=','done')]" help="Todo Done"/>  
-
-                <field name="category" groups="todo.category"/>
+                domain="[('status','=','done')]" help="Todo Done"/> 
+                 <group expand="0" string="Group By"> 
+                <filter name="category" context="{'group_by': 'category', }"/>
+                 </group>
                 <!-- <field name="user" groups="todo.category"/> -->
             </search>
         </field>
@@ -48,18 +48,16 @@
             <form string="Todo Form">
                 <header> 
                     <button class="open_wizard oe_highlight" name="%(todo_make_done_wizard)d" type="action"
-                        icon="fa-check">
-                        <field name="status" widget="statinfo" string="All Done"/>
-                    </button>
+                        icon="fa-check" string="Set Done"/>
                     <field name="status" widget="statusbar" statusbar_visible="draft,in_process,done"/>
                 </header>
-                <sheet>
-                    <div class="status_button_box oe_button_box" name="button_box">
+                <sheet> 
+                    <!-- <div class="oe_button_box" name="button_box">
                         <button class="status_next_button" name="action_next" type="object"
                             icon="fa-angle-right">
                             <field name="status" widget="statinfo" string="Status"/>
                         </button> 
-                    </div>
+                    </div> -->
                     <group>
                         <!-- Add your fields here --> 
                         <group>

@@ -33,10 +33,42 @@ class TodoModel(models.Model):
         comodel_name='todo.category',
         string='Category',
         required=True)
+    
     @api.multi
     def action_next(self):
         next_status = 'done'
         if self.status == 'draft':
             next_status = 'in_process' 
         return self.update({'status': next_status})
+    
+    @api.model
+    def create(self, values):
+        """
+            Create a new record for a model ModelName
+            @param values: provides a data for new record
+    
+            @return: returns a id of new record
+        """
+        print('============ CREATE', values)
+    
+        result = super(TodoModel, self).create(values)
+    
+        return result
+    
+    
+    @api.multi
+    def write(self, values):
+        """
+            Update all record(s) in recordset, with new value comes as {values}
+            return True on success, False otherwise
+    
+            @param values: dict of new values to be set
+    
+            @return: True on success, False otherwise
+        """
+        print('================== WRITE', values)
+        result = super(TodoModel, self).write(values)
+    
+        return result
+    
 
