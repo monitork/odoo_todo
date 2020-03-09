@@ -20,7 +20,8 @@
     # any module necessary for this one to work correctly
     'depends': [],
     'data': [
+        'security/ir.model.access.csv',
         'wizards/todo_make_done_wizard.xml',
-        'views/views.xml', 
+        'views/views.xml',
     ],
 }
